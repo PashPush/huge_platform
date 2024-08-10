@@ -1,11 +1,10 @@
 import React from 'react'
 
-const LayoutAuth = ({ children }) => {
+const LayoutAuth = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div>
-			<div>LayoutAuth</div>
+		<main className='flex min-h-screen w-full items-center justify-center'>
 			{children}
-		</div>
+		</main>
 	)
 }
 
