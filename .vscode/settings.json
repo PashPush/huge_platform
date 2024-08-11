@@ -1,3 +1,6 @@
 {
-	"path-intellisense.showHiddenFiles": true
+	"path-intellisense.showHiddenFiles": true,
+	"prettier.printWidth": 80,
+	"html.format.wrapLineLength": 120,
+	"editor.wordWrap": "wordWrapColumn"
 }
