@@ -7,7 +7,8 @@ import {
 } from '@clerk/nextjs'
 import './globals.css'
 import React from 'react'
-import { Inter, Space_Grotesk } from 'next/font/google'
+import { ThemeProvider } from '@/context/ThemeProvider'
+import { Inter, Space_Grotesk } from 'next/font/google' // eslint-disable-line
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 		icon: '/assets/images/site-logo.svg',
 	},
 }
+
 const inter = Inter({
 	subsets: ['latin'],
 	weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -35,26 +37,28 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<ClerkProvider
-			appearance={{
-				elements: {
-					formButtonPrimary: 'primary-gradient',
-					footerActionLink: 'primary-text-gradient hover:text-primary-500',
-				},
-			}}
-		>
-			<html lang='en'>
-				<body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-					<SignedOut>
-						<SignInButton />
-					</SignedOut>
-					<SignedIn>
-						<UserButton />
-					</SignedIn>
-					<h1 className='h1-bold'>Some text</h1>
-					{children}
-				</body>
-			</html>
-		</ClerkProvider>
+		<html lang='en'>
+			<body className={`${inter.variable} ${spaceGrotesk.variable} font-inter`}>
+				<ClerkProvider
+					appearance={{
+						elements: {
+							formButtonPrimary: 'primary-gradient',
+							footerActionLink: 'primary-text-gradient hover:text-primary-500',
+						},
+					}}
+				>
+					<ThemeProvider>
+						<h1 className='h1-bold'>This is a piece of text</h1>
+						<SignedOut>
+							<SignInButton />
+						</SignedOut>
+						<SignedIn>
+							<UserButton />
+						</SignedIn>
+						{children}
+					</ThemeProvider>
+				</ClerkProvider>
+			</body>
+		</html>
 	)
 }
