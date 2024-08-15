@@ -67,7 +67,7 @@ export async function deleteUser(params: DeleteUserParams) {
 			throw new Error('User not found')
 		}
 
-		// Delete user from database
+		// Delete user from database .
 		// and questions, answers, comments, etc.
 
 		// get user question ids
