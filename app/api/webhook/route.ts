@@ -37,6 +37,10 @@ export async function POST(req: Request) {
 
 	let evt: WebhookEvent
 
+	// console.log(wh)
+	// console.log(svix_id, ' +++ ', svix_timestamp, ' --- ', svix_signature)
+	// console.log(body)
+
 	// Verify the payload with the headers
 	try {
 		evt = wh.verify(body, {
@@ -44,6 +48,7 @@ export async function POST(req: Request) {
 			'svix-timestamp': svix_timestamp,
 			'svix-signature': svix_signature,
 		}) as WebhookEvent
+		console.log(evt)
 	} catch (err) {
 		console.error('Error verifying webhook:', err)
 		return new Response('Error occured', {
@@ -53,7 +58,7 @@ export async function POST(req: Request) {
 
 	const eventType = evt.type
 
-	console.log({ eventType })
+	// console.log({ eventType })
 
 	if (eventType === 'user.created') {
 		const { id, email_addresses, image_url, username, first_name, last_name } =

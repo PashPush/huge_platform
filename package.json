@@ -29,12 +29,14 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-config-standard": "^17.1.0",
 		"eslint-plugin-tailwindcss": "^3.17.4",
+		"html-react-parser": "^5.1.12",
 		"lucide-react": "^0.427.0",
 		"mongodb": "^6.8.0",
 		"mongoose": "^8.5.3",
 		"next": "14.2.5",
 		"postcss": "8.4.41",
 		"prettier": "^3.3.3",
+		"prismjs": "^1.29.0",
 		"react": "18.3.1",
 		"react-dom": "18.3.1",
 		"react-hook-form": "^7.52.2",
@@ -44,5 +46,8 @@
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "5.5.4",
 		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@types/prismjs": "^1.26.4"
 	}
 }
