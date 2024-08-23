@@ -18,7 +18,7 @@ const RenderTag = ({
 }: Props) => {
 	if (linked) {
 		return (
-			<Link href={`/tags/${name}`} className='flex justify-between gap-2'>
+			<Link href={`/tags/${_id}`} className='flex justify-between gap-2'>
 				<Badge className='subtle-medium background-light800_dark300 text-light400_light500 cursor-pointer rounded-md border-none px-4 py-2 uppercase'>
 					{name}
 				</Badge>
