@@ -3,10 +3,16 @@ import Filter from '@/components/shared/Filter'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
 import { UserFilters } from '@/constants/filters'
 import { getAllUsers } from '@/lib/actions/user.action'
+import { SearchParamsProps } from '@/types'
+import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
 
-const Page = async () => {
-	const result = await getAllUsers({})
+const Page = async ({ searchParams }: SearchParamsProps) => {
+	const { userId } = auth()
+	const result = await getAllUsers({
+		searchQuery: searchParams.q,
+		filter: searchParams.filter,
+	})
 
 	return (
 		<>
@@ -32,10 +38,19 @@ const Page = async () => {
 					result.users.map((user) => <UserCard key={user._id} user={user} />)
 				) : (
 					<div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
-						<p>No users yet</p>
-						<Link href='/sign-up' className='mt-2 font-bold text-accent-blue'>
-							Join to be the first!
-						</Link>
+						{!userId ? (
+							<>
+								<p>No users yet</p>
+								<Link
+									href='/sign-up'
+									className='mt-2 font-bold text-accent-blue'
+								>
+									Join to be the first!
+								</Link>
+							</>
+						) : (
+							<p>Users not found</p>
+						)}
 					</div>
 				)}
 			</section>

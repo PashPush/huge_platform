@@ -38,7 +38,37 @@ export async function getAllTags(params: GetAllTagsParams) {
 	try {
 		connectToDatabase()
 
-		const tags = await Tag.find({})
+		const { searchQuery, filter } = params
+
+		const query: FilterQuery<typeof Tag> = {}
+
+		if (searchQuery) {
+			query.$or = [
+				{ name: { $regex: new RegExp(searchQuery, 'i') } },
+				{ description: { $regex: new RegExp(searchQuery, 'i') } },
+			]
+		}
+
+		let sortOptions = {}
+
+		switch (filter) {
+			case 'popular':
+				sortOptions = { questions: -1 }
+				break
+			case 'recent':
+				sortOptions = { createdOn: -1 }
+				break
+			case 'name':
+				sortOptions = { name: 1 }
+				break
+			case 'old':
+				sortOptions = { createdOn: 1 }
+				break
+
+			default:
+				break
+		}
+		const tags = await Tag.find(query).sort(sortOptions)
 
 		return { tags }
 	} catch (error) {
@@ -55,12 +85,19 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 
 		const tagFilter: FilterQuery<ITag> = { _id: tagId }
 
+		const query: FilterQuery<typeof Question> = {}
+
+		if (searchQuery) {
+			query.$or = [
+				{ title: { $regex: searchQuery, $options: 'i' } },
+				{ content: { $regex: searchQuery, $options: 'i' } },
+			]
+		}
+
 		const tag = await Tag.findOne(tagFilter).populate({
 			path: 'questions',
 			model: Question,
-			match: searchQuery
-				? { title: { $regex: searchQuery, $options: 'i' } }
-				: {},
+			match: query,
 			options: {
 				sort: { createdAt: -1 },
 			},
@@ -79,6 +116,23 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 		const questions = tag.questions
 
 		return { tagTitle: tag.name, questions }
+	} catch (error) {
+		console.log(error)
+		throw error
+	}
+}
+
+export async function getTopPopularTags() {
+	try {
+		connectToDatabase()
+
+		const popularTags = await Tag.aggregate([
+			{ $project: { name: 1, numberOfQuestions: { $size: '$questions' } } },
+			{ $sort: { numberOfQuestions: -1 } },
+			{ $limit: 5 },
+		])
+
+		return popularTags
 	} catch (error) {
 		console.log(error)
 		throw error

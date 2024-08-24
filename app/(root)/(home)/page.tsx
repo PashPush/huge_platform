@@ -6,10 +6,14 @@ import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
 import { Button } from '@/components/ui/button'
 import { HomePageFilters } from '@/constants/filters'
 import { getQuestions } from '@/lib/actions/question.action'
+import { SearchParamsProps } from '@/types'
 import Link from 'next/link'
 
-export default async function Home() {
-	const result = await getQuestions({})
+export default async function Home({ searchParams }: SearchParamsProps) {
+	const result = await getQuestions({
+		searchQuery: searchParams.q,
+		filter: searchParams.filter,
+	})
 
 	return (
 		<>
@@ -29,6 +33,7 @@ export default async function Home() {
 					placeholder='Search for questions'
 					otherClasses='flex-1'
 				/>
+
 				<Filter
 					filters={HomePageFilters}
 					otherClasses='min-h-[56px] sm:min-w-[170px]'
