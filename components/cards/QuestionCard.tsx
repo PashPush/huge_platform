@@ -22,7 +22,7 @@ interface QuestionProps {
 	views: number
 	answers: Array<object>
 	createdAt: Date
-	clerkId?: string
+	clerkId?: string | null
 }
 
 const QuestionCard = ({
@@ -36,7 +36,7 @@ const QuestionCard = ({
 	answers,
 	createdAt,
 }: QuestionProps) => {
-	const showActionButtons = clerkId && clerkId === author.clerkId
+	const showActionButtons = clerkId && clerkId === author._id
 
 	return (
 		<div className='card-wrapper rounded-[10px] p-9 sm:px-11'>
