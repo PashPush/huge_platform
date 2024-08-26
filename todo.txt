@@ -1,0 +1,3 @@
+logic in profiles when not logged in (links with _id and clerkId)
+
+in profile page questions and answers refresh page value
