@@ -12,6 +12,15 @@ import { auth } from '@clerk/nextjs/server'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import type { Metadata } from 'next'
+
+type Props = { params: { id: string } }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const result = await getQuestionById({ questionId: params.id })
+	return {
+		title: `${result.title}`,
+	}
+}
 
 const Page = async ({ params, searchParams }: URLProps) => {
 	const { userId: clerkId } = auth()

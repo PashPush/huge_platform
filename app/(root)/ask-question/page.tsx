@@ -3,6 +3,11 @@ import { getUserById } from '@/lib/actions/user.action'
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Ask a question',
+}
 
 const Page = async () => {
 	const { userId } = auth()

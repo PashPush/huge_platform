@@ -2,8 +2,17 @@ import QuestionCard from '@/components/cards/QuestionCard'
 import NoResult from '@/components/shared/NoResult'
 import Pagination from '@/components/shared/Pagination'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
-import { getQuestionsByTagId } from '@/lib/actions/tag.actions'
+import { getQuestionsByTagId, getTagName } from '@/lib/actions/tag.actions'
 import { URLProps } from '@/types'
+import type { Metadata } from 'next'
+
+type Props = { params: { id: string } }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const tagName = await getTagName(params.id)
+	return {
+		title: `${tagName} | Tag`,
+	}
+}
 
 const Page = async ({ params, searchParams }: URLProps) => {
 	const result = await getQuestionsByTagId({

@@ -1,7 +1,7 @@
 import { getUserQuestions } from '@/lib/actions/user.action'
 import { SearchParamsProps } from '@/types'
 import React from 'react'
-import QuestionCard from '../cards/QuestionCard'
+import QuestionCard, { QuestionProps } from '../cards/QuestionCard'
 import Pagination from './Pagination'
 
 interface Props extends SearchParamsProps {
@@ -17,7 +17,7 @@ const QuestionTab = async ({ searchParams, userId, clerkId }: Props) => {
 
 	return (
 		<>
-			{result.questions.map((question) => (
+			{result.questions.map((question: QuestionProps) => (
 				<QuestionCard
 					key={question._id}
 					_id={question._id}

@@ -7,6 +7,11 @@ import { getAllUsers } from '@/lib/actions/user.action'
 import { SearchParamsProps } from '@/types'
 import { auth } from '@clerk/nextjs/server'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Community',
+}
 
 const Page = async ({ searchParams }: SearchParamsProps) => {
 	const { userId } = auth()

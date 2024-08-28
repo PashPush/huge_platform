@@ -21,6 +21,7 @@ import Image from 'next/image'
 import { createQuestion, editQuestion } from '@/lib/actions/question.action'
 import { useRouter, usePathname } from 'next/navigation'
 import { useTheme } from '@/context/ThemeProvider'
+import { toast } from '../ui/use-toast'
 
 interface Props {
 	type?: string
@@ -67,6 +68,9 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 				})
 
 				router.push(`/question/${parsedQuestionDetails._id}`)
+				return toast({
+					title: `Question successfully edited`,
+				})
 			} else {
 				await createQuestion({
 					title: values.title,
@@ -77,8 +81,16 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 				})
 
 				router.push('/')
+				return toast({
+					title: `Question successfully added`,
+				})
 			}
 		} catch (error) {
+			console.log(error)
+			toast({
+				title: 'Question not added or edited, Error',
+				variant: 'destructive',
+			})
 		} finally {
 			setIsSubmitting(false)
 		}

@@ -11,6 +11,7 @@ import {
 import Question from '@/database/question.model'
 import { revalidatePath } from 'next/cache'
 import Interaction from '@/database/interaction.model'
+import User from '@/database/user.model'
 
 export async function createAnswer(params: CreateAnswerParams) {
 	try {
@@ -21,11 +22,21 @@ export async function createAnswer(params: CreateAnswerParams) {
 		const newAnswer = await Answer.create({ content, author, question })
 
 		// Add the answer to the question's answers array
-		await Question.findByIdAndUpdate(question, {
+		const questionObj = await Question.findByIdAndUpdate(question, {
 			$push: { answers: newAnswer._id },
 		})
 
-		// TODO: Add interaction...
+		await Interaction.create({
+			user: author,
+			action: 'answer',
+			question,
+			answer: newAnswer._id,
+			tags: questionObj.tags,
+		})
+
+		await User.findByIdAndUpdate(author, {
+			$inc: { reputation: 10 },
+		})
 
 		revalidatePath(path)
 	} catch (error) {
@@ -38,7 +49,7 @@ export async function getAnswers(params: GetAnswersParams) {
 	try {
 		connectToDatabase()
 
-		const { questionId, sortBy, page = 1, pageSize = 1 } = params
+		const { questionId, sortBy, page = 1, pageSize = 2 } = params
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -106,8 +117,18 @@ export async function upvoteAnswer(params: AnswerVoteParams) {
 			throw new Error('Answer not found')
 		}
 
-		// Increment author's reputation
+		const authorId = JSON.stringify(answer.author).slice(1, -1)
 
+		if (userId !== authorId) {
+			// Increment author's reputation
+			await User.findByIdAndUpdate(userId, {
+				$inc: { reputation: hasupVoted ? -1 : hasdownVoted ? 2 : 1 },
+			})
+
+			await User.findByIdAndUpdate(answer.author, {
+				$inc: { reputation: hasupVoted ? -10 : hasdownVoted ? 20 : 10 },
+			})
+		}
 		revalidatePath(path)
 	} catch (error) {
 		console.log(error)
@@ -124,7 +145,7 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
 		let updateQuery = {}
 
 		if (hasdownVoted) {
-			updateQuery = { $pull: { downvote: userId } }
+			updateQuery = { $pull: { downvotes: userId } }
 		} else if (hasupVoted) {
 			updateQuery = {
 				$pull: { upvotes: userId },
@@ -142,8 +163,19 @@ export async function downvoteAnswer(params: AnswerVoteParams) {
 			throw new Error('Answer not found')
 		}
 
-		// Increment author's reputation
+		const authorId = JSON.stringify(answer.author).slice(1, -1)
 
+		// Increment user's reputation by +1 / -1 for upvoting / revoking
+		if (userId !== authorId) {
+			// Increment author's reputation
+			await User.findByIdAndUpdate(userId, {
+				$inc: { reputation: hasdownVoted ? 1 : hasupVoted ? -2 : -1 },
+			})
+
+			await User.findByIdAndUpdate(answer.author, {
+				$inc: { reputation: hasdownVoted ? 10 : hasupVoted ? -20 : -10 },
+			})
+		}
 		revalidatePath(path)
 	} catch (error) {
 		console.log(error)

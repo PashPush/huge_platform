@@ -4,6 +4,7 @@ import { deleteAnswer } from '@/lib/actions/answer.action'
 import { deleteQuestion } from '@/lib/actions/question.action'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
+import { toast } from '../ui/use-toast'
 
 interface Props {
 	type: string
@@ -32,6 +33,9 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
 				path: pathname,
 			})
 		}
+		return toast({
+			title: `${type === 'Question' ? 'Question' : 'Answer'} successfully deleted`,
+		})
 	}
 
 	return (

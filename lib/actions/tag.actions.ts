@@ -34,6 +34,24 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 	}
 }
 
+export async function getTagName(tagId: string) {
+	try {
+		connectToDatabase()
+
+		const name = await Tag.findById(tagId)
+
+		if (!name) throw new Error('Tag not found')
+
+		// Find interactions for the user and group by tags...
+		// Interaction...
+
+		return name.name
+	} catch (error) {
+		console.log(error)
+		throw Error
+	}
+}
+
 export async function getAllTags(params: GetAllTagsParams) {
 	try {
 		connectToDatabase()

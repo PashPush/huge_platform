@@ -8,3 +8,4 @@ when type in search inpuns some special marks - Error: Invalid regular expressio
 
 PRISM JS bug
 
+Prevent editing of not own questions ✅

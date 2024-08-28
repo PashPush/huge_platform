@@ -12,6 +12,25 @@ import ProfileLink from '@/components/shared/ProfileLink'
 import Stats from '@/components/shared/Stats'
 import QuestionTab from '@/components/shared/QuestionTab'
 import AnswersTab from '@/components/shared/AnswersTab'
+import type { Metadata, ResolvingMetadata } from 'next'
+
+type Props = {
+	params: { id: string }
+	searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata({
+	params,
+}: {
+	params: { id: string }
+}): Promise<Metadata> {
+	const userInfo = await getUserInfo({
+		userId: params.id,
+	})
+	return {
+		title: `${userInfo.user.name}`,
+	}
+}
 
 const Page = async ({ params, searchParams }: URLProps) => {
 	const { userId: clerkId } = auth()
@@ -85,6 +104,8 @@ const Page = async ({ params, searchParams }: URLProps) => {
 			<Stats
 				totalQuestions={userInfo.totalQuestions}
 				totalAnswers={userInfo.totalAnswers}
+				badges={userInfo.badgeCounts}
+				reputation={userInfo.reputation}
 			/>
 
 			<div className='mt-10 flex gap-10'>

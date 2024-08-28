@@ -6,7 +6,7 @@ import { formatAndDivideNumber, getTimestamp } from '@/lib/utils'
 import { SignedIn } from '@clerk/nextjs'
 import EditDeleteAction from '../shared/EditDeleteAction'
 
-interface QuestionProps {
+export interface QuestionProps {
 	_id: string
 	title: string
 	tags: {
@@ -15,6 +15,7 @@ interface QuestionProps {
 	}[]
 	author: {
 		_id: string
+		clerkId: string
 		name: string
 		picture: string
 	}
@@ -36,7 +37,7 @@ const QuestionCard = ({
 	answers,
 	createdAt,
 }: QuestionProps) => {
-	const showActionButtons = clerkId && clerkId === author._id
+	const showActionButtons = clerkId && clerkId === author.clerkId
 
 	return (
 		<div className='card-wrapper rounded-[10px] p-9 sm:px-11'>

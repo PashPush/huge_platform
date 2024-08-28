@@ -12,6 +12,7 @@ import { Button } from '../ui/button'
 import Image from 'next/image'
 import { createAnswer } from '@/lib/actions/answer.action'
 import { usePathname } from 'next/navigation'
+import { toast } from '../ui/use-toast'
 
 interface Props {
 	question: string
@@ -49,8 +50,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 
 				editor.setContent('')
 			}
+			return toast({
+				title: 'Answer successfully added',
+				variant: 'default',
+			})
 		} catch (error) {
 			console.log(error)
+			toast({
+				title: 'Answer not added, Error',
+				variant: 'destructive',
+			})
 		} finally {
 			setIsSubmitting(false)
 		}
@@ -62,7 +71,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 				<h4 className='paragraph-semibold text-dark400_light800'>
 					Write your answer here
 				</h4>
-
+				{/* 
 				<Button
 					className='btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500'
 					onClick={() => {}}
@@ -75,7 +84,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 						className='object-contain'
 					/>
 					Generate an AI Answer
-				</Button>
+				</Button>*/}
 			</div>
 
 			<Form {...form}>
