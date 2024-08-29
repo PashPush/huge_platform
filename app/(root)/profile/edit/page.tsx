@@ -1,5 +1,4 @@
 import Profile from '@/components/forms/Profile'
-import { Toaster } from '@/components/ui/toaster'
 import { getUserById } from '@/lib/actions/user.action'
 import { ParamsProps } from '@/types'
 import { auth } from '@clerk/nextjs/server'
