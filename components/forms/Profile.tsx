@@ -60,6 +60,7 @@ const Profile = ({ clerkId, user }: Props) => {
 			router.back()
 			toast({
 				title: 'Profile successfully edited',
+				variant: 'success',
 			})
 		} catch (error) {
 			toast({
@@ -178,11 +179,7 @@ const Profile = ({ clerkId, user }: Props) => {
 				/>
 
 				<div className='mt-7 flex justify-end'>
-					<Button
-						type='submit'
-						className='primary-gradient w-fit'
-						disabled={isSubmitting}
-					>
+					<Button type='submit' variant='submit' disabled={isSubmitting}>
 						{isSubmitting ? 'Saving...' : 'Save'}
 					</Button>
 				</div>

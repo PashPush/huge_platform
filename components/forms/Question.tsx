@@ -70,6 +70,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 				router.push(`/question/${parsedQuestionDetails._id}`)
 				return toast({
 					title: `Question successfully edited`,
+					variant: 'success',
 				})
 			} else {
 				await createQuestion({
@@ -83,6 +84,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 				router.push('/')
 				return toast({
 					title: `Question successfully added`,
+					variant: 'success',
 				})
 			}
 		} catch (error) {
@@ -269,11 +271,7 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 						</FormItem>
 					)}
 				/>
-				<Button
-					type='submit'
-					className='primary-gradient w-fit !text-light-900'
-					disabled={isSubmitting}
-				>
+				<Button type='submit' variant='submit' disabled={isSubmitting}>
 					{isSubmitting ? (
 						<>{type === 'Edit' ? 'Editing...' : 'Posting...'}</>
 					) : (

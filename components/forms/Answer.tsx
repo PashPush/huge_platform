@@ -51,7 +51,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 			}
 			return toast({
 				title: 'Answer successfully added',
-				variant: 'default',
+				variant: 'success',
 			})
 		} catch (error) {
 			console.log(error)
@@ -128,11 +128,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
 					/>
 
 					<div className='flex justify-end'>
-						<Button
-							type='submit'
-							className='primary-gradient w-fit text-white'
-							disabled={isSubmitting}
-						>
+						<Button type='submit' variant='submit' disabled={isSubmitting}>
 							{isSubmitting ? 'Submitting...' : 'Submit'}
 						</Button>
 					</div>

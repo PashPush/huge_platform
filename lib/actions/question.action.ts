@@ -1,6 +1,6 @@
 'use server'
 
-import Question from '@/database/question.model'
+import Question, { IQuestion } from '@/database/question.model'
 import Tag from '@/database/tag.model'
 import { connectToDatabase } from '../mongoose'
 import {
@@ -26,7 +26,7 @@ export async function getQuestions(params: GetQuestionsParams) {
 
 		const skipAmount = (page - 1) * pageSize
 
-		const query: FilterQuery<typeof Question> = {}
+		const query: FilterQuery<IQuestion> = {}
 
 		if (searchQuery) {
 			query.$or = [
@@ -326,7 +326,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 		]
 		console.log('USER distinctUserTagIds: ', distinctUserTagIds)
 
-		const query: FilterQuery<typeof Question> = {
+		const query: FilterQuery<IQuestion> = {
 			$and: [
 				{ tags: { $in: distinctUserTagIds } }, // Questions with user's tags
 				{ author: { $ne: user._id } }, // Exclude user's own questions

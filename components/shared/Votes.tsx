@@ -43,7 +43,7 @@ const Votes = ({
 
 		return toast({
 			title: `The question ${!hasSaved ? 'added to ' : 'removed from '}collection'`,
-			variant: `${!hasSaved ? 'default' : 'destructive'}`,
+			variant: 'success',
 		})
 	}
 
@@ -52,6 +52,7 @@ const Votes = ({
 			return toast({
 				title: 'Please log in',
 				description: 'You must be looged in to vote',
+				variant: 'destructive',
 			})
 		}
 
@@ -76,7 +77,7 @@ const Votes = ({
 
 			return toast({
 				title: `Upvote ${!hasupVoted ? 'successful' : 'removed'}`,
-				variant: `${!hasupVoted ? 'default' : 'destructive'}`,
+				variant: `${!hasupVoted ? 'success' : 'default'}`,
 			})
 		}
 
@@ -101,7 +102,7 @@ const Votes = ({
 
 			return toast({
 				title: `Downvote ${!hasdownVoted ? 'successful' : 'removed'}`,
-				variant: `${!hasdownVoted ? 'default' : 'destructive'}`,
+				variant: `${!hasdownVoted ? 'success' : 'default'}`,
 			})
 		}
 	}

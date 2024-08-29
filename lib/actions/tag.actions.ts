@@ -8,7 +8,7 @@ import {
 	GetTopInteractedTagsParams,
 } from './shared.types'
 import Tag, { ITag } from '@/database/tag.model'
-import Question from '@/database/question.model'
+import Question, { IQuestion } from '@/database/question.model'
 import { FilterQuery } from 'mongoose'
 
 export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
@@ -60,7 +60,7 @@ export async function getAllTags(params: GetAllTagsParams) {
 
 		const skipAmount = (page - 1) * pageSize
 
-		const query: FilterQuery<typeof Tag> = {}
+		const query: FilterQuery<ITag> = {}
 
 		if (searchQuery) {
 			query.$or = [
@@ -113,7 +113,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
 
 		const tagFilter: FilterQuery<ITag> = { _id: tagId }
 
-		const query: FilterQuery<typeof Question> = {}
+		const query: FilterQuery<IQuestion> = {}
 
 		if (searchQuery) {
 			query.$or = [
