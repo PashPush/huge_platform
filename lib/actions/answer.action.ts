@@ -12,6 +12,7 @@ import Question from '@/database/question.model'
 import { revalidatePath } from 'next/cache'
 import Interaction from '@/database/interaction.model'
 import User from '@/database/user.model'
+import { ITEMS_PER_PAGE } from '@/constants'
 
 export async function createAnswer(params: CreateAnswerParams) {
 	try {
@@ -49,7 +50,7 @@ export async function getAnswers(params: GetAnswersParams) {
 	try {
 		connectToDatabase()
 
-		const { questionId, sortBy, page = 1, pageSize = 2 } = params
+		const { questionId, sortBy, page = 1, pageSize = ITEMS_PER_PAGE } = params
 
 		const skipAmount = (page - 1) * pageSize
 

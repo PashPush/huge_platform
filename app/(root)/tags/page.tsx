@@ -1,4 +1,3 @@
-// import UserCard from "@/components/cards/UserCard";
 import Filter from '@/components/shared/Filter'
 import NoResult from '@/components/shared/NoResult'
 import Pagination from '@/components/shared/Pagination'
@@ -27,8 +26,6 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 			<div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
 				<LocalSearchbar
 					route='/tags'
-					iconPosition='left'
-					imgsrc='/assets/icons/search.svg'
 					placeholder='Search for tags'
 					otherClasses='flex-1'
 				/>

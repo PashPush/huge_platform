@@ -17,21 +17,24 @@ import { revalidatePath } from 'next/cache'
 import Answer from '@/database/answer.model'
 import Interaction from '@/database/interaction.model'
 import { FilterQuery } from 'mongoose'
+import { shieldingRegExp } from '../utils'
+import { ITEMS_PER_PAGE } from '@/constants'
 
 export async function getQuestions(params: GetQuestionsParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery, filter, page = 1, pageSize = 4 } = params
+		const { searchQuery, filter, page = 1, pageSize = ITEMS_PER_PAGE } = params
 
 		const skipAmount = (page - 1) * pageSize
 
 		const query: FilterQuery<IQuestion> = {}
 
 		if (searchQuery) {
+			const shieldedQuery = shieldingRegExp(searchQuery, 'gi')
 			query.$or = [
-				{ title: { $regex: new RegExp(searchQuery, 'i') } },
-				{ content: { $regex: new RegExp(searchQuery, 'i') } },
+				{ title: { $regex: shieldedQuery } },
+				{ content: { $regex: shieldedQuery } },
 			]
 		}
 
@@ -294,7 +297,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 	try {
 		await connectToDatabase()
 
-		const { userId, page = 1, pageSize = 4, searchQuery } = params
+		const { userId, page = 1, pageSize = ITEMS_PER_PAGE, searchQuery } = params
 
 		const user = await User.findOne({ clerkId: userId })
 
@@ -308,7 +311,6 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 		const userInteractions = await Interaction.find({ user: user._id })
 			.populate('tags')
 			.exec()
-		// console.log({ userInteractions })
 
 		// Extract tags from user's interactions
 		const userTags = userInteractions.reduce((tags, interaction) => {
@@ -317,14 +319,12 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 			}
 			return tags
 		}, [])
-		console.log('USER TAGS: ', userTags)
 
 		// Get distinct tag IDs from user's interactions
 		const distinctUserTagIds = [
 			// @ts-ignore
 			...new Set(userTags.map((tag: any) => tag._id)),
 		]
-		console.log('USER distinctUserTagIds: ', distinctUserTagIds)
 
 		const query: FilterQuery<IQuestion> = {
 			$and: [

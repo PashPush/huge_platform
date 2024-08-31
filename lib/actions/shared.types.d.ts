@@ -90,6 +90,13 @@ export interface EditQuestionParams {
 	path: string
 }
 
+export interface EditTagParams {
+	tagId: string
+	name: string
+	description: string
+	path: string
+}
+
 export interface GetAllTagsParams {
 	page?: number
 	pageSize?: number
@@ -97,8 +104,8 @@ export interface GetAllTagsParams {
 	searchQuery?: string
 }
 
-export interface GetQuestionsByTagIdParams {
-	tagId: string
+export interface GetQuestionsByTagNameParams {
+	name: string
 	page?: number
 	pageSize?: number
 	searchQuery?: string

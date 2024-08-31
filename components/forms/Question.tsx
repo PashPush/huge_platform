@@ -106,18 +106,27 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 			e.preventDefault()
 
 			const tagInput = e.target as HTMLInputElement
-			const tagValue = tagInput.value.trim()
+			const tagValue = tagInput.value.trim().replace(/[^a-zA-Zа-яА-Я]/g, '')
+			const capitalizedTagValue = tagValue[0].toUpperCase() + tagValue.slice(1)
 
-			if (tagValue !== '') {
-				if (tagValue.length > 15) {
+			console.log(capitalizedTagValue)
+
+			if (capitalizedTagValue !== '') {
+				if (capitalizedTagValue.length > 15) {
 					return form.setError('tags', {
 						type: 'required',
 						message: 'Tag must be less than 15 characters.',
 					})
 				}
 
-				if (!field.value.includes(tagValue as never)) {
-					form.setValue('tags', [...field.value, tagValue])
+				if (!field.value.includes(capitalizedTagValue as never)) {
+					if (field.value.length >= 3) {
+						return form.setError('tags', {
+							type: 'required',
+							message: 'You can set till 3 tags',
+						})
+					}
+					form.setValue('tags', [...field.value, capitalizedTagValue])
 					tagInput.value = ''
 					form.clearErrors('tags')
 				}

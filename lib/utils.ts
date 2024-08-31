@@ -138,3 +138,11 @@ export const assignBadges = (params: BadgeParam) => {
 
 	return badgeCounts
 }
+
+export const shieldingRegExp = (str: string, flags: string) => {
+	if (!str) return
+	return new RegExp(
+		str.replace(/(\[|\\|\^|\$|\||\?|\*|\+|\(|\)|\.)/g, '\\$1'),
+		flags
+	)
+}

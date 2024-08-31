@@ -2,21 +2,20 @@ import QuestionCard from '@/components/cards/QuestionCard'
 import NoResult from '@/components/shared/NoResult'
 import Pagination from '@/components/shared/Pagination'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
-import { getQuestionsByTagId, getTagName } from '@/lib/actions/tag.actions'
-import { URLProps } from '@/types'
+import { getQuestionsByTagName } from '@/lib/actions/tag.actions'
+import { TAGProps } from '@/types'
 import type { Metadata } from 'next'
 
-type Props = { params: { id: string } }
+type Props = { params: { name: string } }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-	const tagName = await getTagName(params.id)
 	return {
-		title: `${tagName} | Tag`,
+		title: `${params.name} | Tag`,
 	}
 }
 
-const Page = async ({ params, searchParams }: URLProps) => {
-	const result = await getQuestionsByTagId({
-		tagId: params.id,
+const Page = async ({ params, searchParams }: TAGProps) => {
+	const result = await getQuestionsByTagName({
+		name: params.name,
 		page: searchParams.page ? +searchParams.page : 1,
 		searchQuery: searchParams.q,
 	})
@@ -27,9 +26,7 @@ const Page = async ({ params, searchParams }: URLProps) => {
 
 			<div className='mt-11 w-full'>
 				<LocalSearchbar
-					route={`/tags/${params.id}`}
-					iconPosition='left'
-					imgsrc='/assets/icons/search.svg'
+					route={`/tags/${params.name}`}
 					placeholder='Search tag questions'
 					otherClasses='flex-1'
 				/>

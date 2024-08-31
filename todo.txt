@@ -4,8 +4,10 @@ in profile page questions and answers refresh page value
 
 black text all over the place in questions
 
-when type in search inpuns some special marks - Error: Invalid regular expression: /?/i: Nothing to repeat
+when type in search inpuns some special marks - Error: Invalid regular expression: /?/i: Nothing to repeat ✅
 
 PRISM JS bug
 
 Prevent editing of not own questions ✅
+
+ADD ADMIN_ID to env.file

@@ -6,6 +6,7 @@ import { SearchParams } from './shared.types'
 import User from '@/database/user.model'
 import Tag from '@/database/tag.model'
 import Answer from '@/database/answer.model'
+import { shieldingRegExp } from '../utils'
 
 const SearchableTypes = ['question', 'user', 'answer', 'tag']
 
@@ -14,7 +15,8 @@ export async function globalSearch(params: SearchParams) {
 		await connectToDatabase()
 
 		const { query, type } = params
-		const regexQuery = { $regex: query, $options: 'i' }
+
+		const shieldedQuery = query && shieldingRegExp(query, 'gi')
 
 		let results = []
 
@@ -30,7 +32,7 @@ export async function globalSearch(params: SearchParams) {
 		if (!typeLower || !SearchableTypes.includes(typeLower)) {
 			for (const { model, searchField, type } of modelsAndTypes) {
 				const queryResults = await model
-					.find({ [searchField]: regexQuery })
+					.find({ [searchField]: shieldedQuery })
 					.limit(2)
 				results.push(
 					...queryResults.map((item) => ({
@@ -44,7 +46,7 @@ export async function globalSearch(params: SearchParams) {
 								? item.clerkId
 								: type === 'answer'
 									? item.question
-									: item._id,
+									: item.name, // used name except _id for alias for tags
 					}))
 				)
 			}
@@ -56,7 +58,7 @@ export async function globalSearch(params: SearchParams) {
 
 			const queryResults = await modelInfo.model
 				.find({
-					[modelInfo.searchField]: regexQuery,
+					[modelInfo.searchField]: shieldedQuery,
 				})
 				.limit(8)
 
@@ -71,7 +73,7 @@ export async function globalSearch(params: SearchParams) {
 						? item.clerkId
 						: type === 'answer'
 							? item.question
-							: item._id,
+							: item.name, // used name except _id for alias for tags
 			}))
 		}
 		return JSON.stringify(results)

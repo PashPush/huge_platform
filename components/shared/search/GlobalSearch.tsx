@@ -15,6 +15,7 @@ const GlobalSearch = () => {
 	const query = searchParams.get('global')
 
 	const searchContainerRef = useRef<HTMLDivElement>(null)
+	const inputRef = useRef<HTMLInputElement>(null)
 	const [search, setSearch] = useState(query || '')
 	const [isOpen, setIsOpen] = useState(false)
 
@@ -68,8 +69,11 @@ const GlobalSearch = () => {
 					alt='search'
 					width={24}
 					height={24}
+					onClick={() => inputRef.current?.focus()}
 				/>
+
 				<Input
+					ref={inputRef}
 					type='text'
 					value={search}
 					onChange={(e) => {
@@ -81,6 +85,16 @@ const GlobalSearch = () => {
 					placeholder='Search globally'
 					className='paragraph-regular no-focus placeholder  text-dark400_light700 border-none bg-transparent shadow-none outline-none'
 				/>
+				{search && (
+					<Image
+						src='/assets/icons/close.svg'
+						alt='close icon'
+						onClick={() => setSearch('')}
+						width={32}
+						height={32}
+						className='size-8 cursor-pointer rounded-md p-1 hover:bg-slate-200/50'
+					/>
+				)}
 			</div>
 			{isOpen && <GlobalResult />}
 		</div>

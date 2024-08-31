@@ -18,7 +18,8 @@ import Question, { IQuestion } from '@/database/question.model'
 import Tag from '@/database/tag.model'
 import Answer from '@/database/answer.model'
 import { BadgeCriteriaType } from '@/types'
-import { assignBadges } from '../utils'
+import { assignBadges, shieldingRegExp } from '../utils'
+import { ITEMS_PER_PAGE } from '@/constants'
 
 export async function getUserById(params: GetUserByIdParams) {
 	try {
@@ -27,6 +28,12 @@ export async function getUserById(params: GetUserByIdParams) {
 		const { userId } = params
 
 		const user = await User.findOne({ clerkId: userId })
+
+		const userQuestionIds = await Question.find({ author: user._id }).distinct(
+			'_id'
+		)
+
+		console.log(userQuestionIds)
 
 		return user
 	} catch (error) {
@@ -71,22 +78,25 @@ export async function deleteUser(params: DeleteUserParams) {
 
 		const { clerkId } = params
 
-		const user = await User.findOneAndDelete({ clerkId })
+		const user = await User.findOne({ clerkId })
 
 		if (!user) {
 			throw new Error('User not found')
 		}
 
 		// Delete user from database
-		// and questions, answers, comments, etc.
+		// and questions, answers, etc.
 
 		// get user question ids
-		// const userQuestionIds = await Question.find({ author: user._id}).distinct('_id');
+		// const userQuestionIds = await Question.find({ author: user._id }).distinct(
+		// 	'_id'
+		// )
 
 		// delete user questions
 		await Question.deleteMany({ author: user._id })
+		await Answer.deleteMany({ author: user._id })
 
-		// TODO: delete user answers, comments, etc.
+		// TODO: edit answers like the author = DELETED / also delete tags of questions
 
 		const deletedUser = await User.findByIdAndDelete(user._id)
 
@@ -101,16 +111,17 @@ export async function getAllUsers(params: GetAllUsersParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery, filter, page = 1, pageSize = 4 } = params
+		const { searchQuery, filter, page = 1, pageSize = ITEMS_PER_PAGE } = params
 
 		const skipAmount = (page - 1) * pageSize
 
 		const query: FilterQuery<IUser> = {}
 
 		if (searchQuery) {
+			const shieldedQuery = shieldingRegExp(searchQuery, 'gi')
 			query.$or = [
-				{ name: { $regex: new RegExp(searchQuery, 'i') } },
-				{ username: { $regex: new RegExp(searchQuery, 'i') } },
+				{ name: { $regex: shieldedQuery } },
+				{ username: { $regex: shieldedQuery } },
 			]
 		}
 
@@ -188,16 +199,23 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
 	try {
 		connectToDatabase()
 
-		const { clerkId, searchQuery, filter, page = 1, pageSize = 4 } = params
+		const {
+			clerkId,
+			searchQuery,
+			filter,
+			page = 1,
+			pageSize = ITEMS_PER_PAGE,
+		} = params
 
 		const skipAmount = (page - 1) * pageSize
 
 		const query: FilterQuery<IQuestion> = {}
 
 		if (searchQuery) {
+			const shieldedQuery = shieldingRegExp(searchQuery, 'gi')
 			query.$or = [
-				{ title: { $regex: new RegExp(searchQuery, 'i') } },
-				{ content: { $regex: new RegExp(searchQuery, 'i') } },
+				{ title: { $regex: shieldedQuery } },
+				{ content: { $regex: shieldedQuery } },
 			]
 		}
 
@@ -329,7 +347,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 	try {
 		connectToDatabase()
 
-		const { userId, page = 1, pageSize = 4 } = params
+		const { userId, page = 1, pageSize = ITEMS_PER_PAGE } = params
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -355,7 +373,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
 	try {
 		connectToDatabase()
 
-		const { userId, page = 1, pageSize = 4 } = params
+		const { userId, page = 1, pageSize = ITEMS_PER_PAGE } = params
 
 		const skipAmount = (page - 1) * pageSize
 
