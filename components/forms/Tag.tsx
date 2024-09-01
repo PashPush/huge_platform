@@ -28,8 +28,6 @@ const Tag = ({ tagDetails }: Props) => {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const parsedTagDetails = JSON.parse(tagDetails || '')
 
-	console.log(parsedTagDetails)
-
 	const form = useForm<z.infer<typeof TagSchema>>({
 		resolver: zodResolver(TagSchema),
 		defaultValues: {
@@ -86,8 +84,7 @@ const Tag = ({ tagDetails }: Props) => {
 								/>
 							</FormControl>
 							<FormDescription className='body-regular mt-2.5 text-light-500'>
-								Be specific and imagine you&apos;re asking a question to another
-								person.
+								You can rename the tag.
 							</FormDescription>
 							<FormMessage className='text-red-500' />
 						</FormItem>
@@ -99,7 +96,7 @@ const Tag = ({ tagDetails }: Props) => {
 					render={({ field }) => (
 						<FormItem className='flex w-full flex-col'>
 							<FormLabel className='paragraph-semibold text-dark400_light800'>
-								Tag Name <span className='text-primary-500'>*</span>
+								Tag description <span className='text-primary-500'>*</span>
 							</FormLabel>
 							<FormControl className='mt-3.5'>
 								<Input
@@ -108,8 +105,7 @@ const Tag = ({ tagDetails }: Props) => {
 								/>
 							</FormControl>
 							<FormDescription className='body-regular mt-2.5 text-light-500'>
-								Be specific and imagine you&apos;re asking a question to another
-								person.
+								Write a short description of this tag.
 							</FormDescription>
 							<FormMessage className='text-red-500' />
 						</FormItem>

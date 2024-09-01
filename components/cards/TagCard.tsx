@@ -16,9 +16,11 @@ const TagCard = async ({ tag }: Props) => {
 	const user = await currentUser()
 	return (
 		<div className='relative'>
-			{user?.id === process.env.ADMIN_ID && (
-				<EditTagAction tagName={JSON.stringify(tag.name)} />
-			)}
+			{user
+				? user?.id === process.env.ADMIN_ID && (
+						<EditTagAction tagName={JSON.stringify(tag.name)} />
+					)
+				: ''}
 			<Link
 				href={`/tags/${tag.name}`}
 				className='shadow-light100_darknone w-full max-xs:min-w-full xs:w-[260px]'

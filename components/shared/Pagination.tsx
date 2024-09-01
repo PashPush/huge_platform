@@ -7,9 +7,10 @@ import { useRouter, useSearchParams } from 'next/navigation'
 interface Props {
 	pageNumber: number
 	isNext: boolean
+	isAnswersTab?: boolean
 }
 
-const Pagination = ({ pageNumber, isNext }: Props) => {
+const Pagination = ({ pageNumber, isNext, isAnswersTab }: Props) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
@@ -17,11 +18,20 @@ const Pagination = ({ pageNumber, isNext }: Props) => {
 		const nextPageNumber =
 			direction === 'prev' ? pageNumber - 1 : pageNumber + 1
 
-		const newUrl = formUrlQuery({
-			params: searchParams.toString(),
-			key: 'page',
-			value: nextPageNumber.toString(),
-		})
+		let newUrl
+		if (!isAnswersTab) {
+			newUrl = formUrlQuery({
+				params: searchParams.toString(),
+				key: 'page',
+				value: nextPageNumber.toString(),
+			})
+		} else {
+			newUrl = formUrlQuery({
+				params: searchParams.toString(),
+				key: 'pageAnswers',
+				value: nextPageNumber.toString(),
+			})
+		}
 
 		router.push(newUrl)
 	}

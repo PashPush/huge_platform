@@ -11,8 +11,11 @@ interface Props extends SearchParamsProps {
 const AnswersTab = async ({ searchParams, userId, clerkId }: Props) => {
 	const result = await getUserAnswers({
 		userId,
-		page: searchParams.page ? +searchParams.page : 1,
+		page: searchParams.pageAnswers ? +searchParams.pageAnswers : 1,
 	})
+
+	searchParams.lol = 'chto'
+	console.log(searchParams)
 
 	return (
 		<>
@@ -29,8 +32,9 @@ const AnswersTab = async ({ searchParams, userId, clerkId }: Props) => {
 			))}
 			<div className='mt-10'>
 				<Pagination
-					pageNumber={searchParams?.page ? +searchParams.page : 1}
+					pageNumber={searchParams?.pageAnswers ? +searchParams.pageAnswers : 1}
 					isNext={result.isNext || false}
+					isAnswersTab
 				/>
 			</div>
 		</>

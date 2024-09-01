@@ -111,7 +111,9 @@ export async function getAllUsers(params: GetAllUsersParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery, filter, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { searchQuery, filter, pageSize = ITEMS_PER_PAGE } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -347,7 +349,9 @@ export async function getUserQuestions(params: GetUserStatsParams) {
 	try {
 		connectToDatabase()
 
-		const { userId, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { userId, pageSize = ITEMS_PER_PAGE } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -373,7 +377,9 @@ export async function getUserAnswers(params: GetUserStatsParams) {
 	try {
 		connectToDatabase()
 
-		const { userId, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { userId, pageSize = 2 } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 

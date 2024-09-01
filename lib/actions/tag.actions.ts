@@ -86,7 +86,9 @@ export async function getAllTags(params: GetAllTagsParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery, filter, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { searchQuery, filter, pageSize = ITEMS_PER_PAGE } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -154,7 +156,9 @@ export async function getQuestionsByTagName(
 	try {
 		connectToDatabase()
 
-		const { name, searchQuery, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { name, searchQuery, pageSize = ITEMS_PER_PAGE } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 

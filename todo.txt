@@ -2,7 +2,7 @@ logic in profiles when not logged in (links with _id and clerkId)
 
 in profile page questions and answers refresh page value
 
-black text all over the place in questions
+black text all over the place in questions ✅
 
 when type in search inpuns some special marks - Error: Invalid regular expression: /?/i: Nothing to repeat ✅
 

@@ -73,7 +73,13 @@ interface UrlQueryParams {
 
 export const formUrlQuery = ({ params, key, value }: UrlQueryParams) => {
 	const currentUrl = qs.parse(params)
-	currentUrl[key] = value
+	if (key === 'page') {
+		const newValue = +value! < 1 ? '1' : value
+		currentUrl[key] = newValue
+	} else {
+		currentUrl[key] = value
+		currentUrl.page = '1'
+	}
 	return qs.stringifyUrl(
 		{
 			url: window.location.pathname,

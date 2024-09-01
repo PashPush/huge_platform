@@ -24,7 +24,9 @@ export async function getQuestions(params: GetQuestionsParams) {
 	try {
 		connectToDatabase()
 
-		const { searchQuery, filter, page = 1, pageSize = ITEMS_PER_PAGE } = params
+		const { searchQuery, filter, pageSize = ITEMS_PER_PAGE } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const skipAmount = (page - 1) * pageSize
 
@@ -297,7 +299,9 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
 	try {
 		await connectToDatabase()
 
-		const { userId, page = 1, pageSize = ITEMS_PER_PAGE, searchQuery } = params
+		const { userId, pageSize = ITEMS_PER_PAGE, searchQuery } = params
+		let { page = 1 } = params
+		if (page < 1) page = 1
 
 		const user = await User.findOne({ clerkId: userId })
 
