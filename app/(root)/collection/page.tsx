@@ -8,6 +8,8 @@ import { getSavedQuestions } from '@/lib/actions/user.action'
 import { SearchParamsProps } from '@/types'
 import { auth } from '@clerk/nextjs/server'
 import { Metadata } from 'next'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Collections',
@@ -16,7 +18,17 @@ export const metadata: Metadata = {
 export default async function Collection({ searchParams }: SearchParamsProps) {
 	const { userId } = auth()
 
-	if (!userId) return null
+	if (!userId)
+		return (
+			<section className='mt-12 flex flex-wrap gap-4'>
+				<div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
+					To see your collections{' '}
+					<Link href='/sign-in' className='mt-2 font-bold text-accent-blue'>
+						Log in
+					</Link>
+				</div>
+			</section>
+		)
 
 	const result = await getSavedQuestions({
 		clerkId: userId,

@@ -14,9 +14,6 @@ const AnswersTab = async ({ searchParams, userId, clerkId }: Props) => {
 		page: searchParams.pageAnswers ? +searchParams.pageAnswers : 1,
 	})
 
-	searchParams.lol = 'chto'
-	console.log(searchParams)
-
 	return (
 		<>
 			{result.answers.map((item) => (

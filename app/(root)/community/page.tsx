@@ -45,12 +45,12 @@ const Page = async ({ searchParams }: SearchParamsProps) => {
 					<div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
 						{!userId ? (
 							<>
-								<p>No users yet</p>
+								<p>No users</p>
 								<Link
 									href='/sign-up'
 									className='mt-2 font-bold text-accent-blue'
 								>
-									Join to be the first!
+									Join to be the one!
 								</Link>
 							</>
 						) : (

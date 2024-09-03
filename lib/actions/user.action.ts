@@ -377,7 +377,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
 	try {
 		connectToDatabase()
 
-		const { userId, pageSize = 2 } = params
+		const { userId, pageSize = ITEMS_PER_PAGE } = params
 		let { page = 1 } = params
 		if (page < 1) page = 1
 

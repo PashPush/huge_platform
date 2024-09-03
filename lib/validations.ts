@@ -17,7 +17,14 @@ export const AnswerSchema = z.object({
 
 export const ProfileSchema = z.object({
 	name: z.string().min(5).max(50),
-	username: z.string().min(5).max(50),
+	username: z
+		.string()
+		.min(2)
+		.max(50)
+		.regex(
+			/^[a-zA-Z0-9_]+$/,
+			'The username must contain only letters, numbers and underscore (_)'
+		),
 	bio: z.string().min(10).max(150),
 	portfolioWebsite: z.string().url(),
 	location: z.string().min(5).max(50),
