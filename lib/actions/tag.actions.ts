@@ -158,7 +158,7 @@ export async function getQuestionsByTagName(
 
 		const { name, searchQuery, pageSize = ITEMS_PER_PAGE } = params
 		let { page = 1 } = params
-		if (page < 1) page = 1
+		page < 1 && (page = 1)
 
 		const skipAmount = (page - 1) * pageSize
 

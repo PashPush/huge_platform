@@ -9,7 +9,6 @@ import { SearchParamsProps } from '@/types'
 import { auth } from '@clerk/nextjs/server'
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
 	title: 'Collections',
