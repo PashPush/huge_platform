@@ -13,6 +13,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import type { Metadata } from 'next'
+import NoResult from '@/components/shared/NoResult'
 
 type Props = { params: { id: string } }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -115,11 +116,21 @@ const Page = async ({ params, searchParams }: URLProps) => {
 				filter={searchParams?.filter}
 			/>
 
-			<Answer
-				question={result.content}
-				questionId={JSON.stringify(result._id)}
-				authorId={JSON.stringify(mongoUser?._id)}
-			/>
+			{clerkId ? (
+				<Answer
+					question={result.content}
+					questionId={JSON.stringify(result._id)}
+					authorId={JSON.stringify(mongoUser?._id)}
+				/>
+			) : (
+				<NoResult
+					title='Sign in to write an answer'
+					description='Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. Our query could be the next big thing others learn from. Get involved! 💡'
+					link='/sign-in'
+					linkTitle='Sign in'
+					showImage={false}
+				/>
+			)}
 		</>
 	)
 }

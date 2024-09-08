@@ -10,4 +10,16 @@ PRISM JS bug
 
 Prevent editing of not own questions ✅
 
-ADD ADMIN_ID to env.file
+ADD ADMIN_ID to env.file ✅
+
+remove database to let aliases appear (maybe add aliases somewhere else)
+
+add blog atricles to the site
+
+implement following tags
+
+user ROLES - user, coach (add feature "to become a coach" (form and explanation of what to do next))
+
+add expended information about users "how much time on diet \ without sugar \ whole condition and feelings on the diet, personal experience"
+
+add optional links to social media in profiles

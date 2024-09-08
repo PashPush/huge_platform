@@ -33,8 +33,6 @@ const Profile = ({ clerkId, user }: Props) => {
 	const form = useForm<z.infer<typeof ProfileSchema>>({
 		resolver: zodResolver(ProfileSchema),
 		defaultValues: {
-			name: parsedUser.name || '',
-			username: parsedUser.username || '',
 			portfolioWebsite: parsedUser.portfolioWebsite || '',
 			location: parsedUser.location || '',
 			bio: parsedUser.bio || '',
@@ -48,8 +46,6 @@ const Profile = ({ clerkId, user }: Props) => {
 			await updateUser({
 				clerkId,
 				updateData: {
-					name: values.name,
-					username: values.username,
 					portfolioWebsite: values.portfolioWebsite,
 					location: values.location,
 					bio: values.bio,
@@ -81,49 +77,12 @@ const Profile = ({ clerkId, user }: Props) => {
 			>
 				<FormField
 					control={form.control}
-					name='name'
-					render={({ field }) => (
-						<FormItem className='space-y-3.5'>
-							<FormLabel className='paragraph-semibold text-dark400_light800'>
-								Name <span className='text-primary-500'>*</span>
-							</FormLabel>
-							<FormControl>
-								<Input
-									placeholder='Your name'
-									className='no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border'
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name='username'
-					render={({ field }) => (
-						<FormItem className='space-y-3.5'>
-							<FormLabel className='paragraph-semibold text-dark400_light800'>
-								Username <span className='text-primary-500'>*</span>
-							</FormLabel>
-							<FormControl>
-								<Input
-									placeholder='Your username'
-									className='no-focus paragraph-regular light-border-2 background-light800_dark300 text-dark300_light700 min-h-[56px] border'
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage className='text-red-500' />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
 					name='portfolioWebsite'
 					render={({ field }) => (
 						<FormItem className='space-y-3.5'>
 							<FormLabel className='paragraph-semibold text-dark400_light800'>
-								Portfolio Link
+								Portfolio Link{' '}
+								<span className='!text-slate-400'>(with https://)</span>
 							</FormLabel>
 							<FormControl>
 								<Input
@@ -133,7 +92,7 @@ const Profile = ({ clerkId, user }: Props) => {
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className='text-red-500' />
 						</FormItem>
 					)}
 				/>
@@ -153,7 +112,7 @@ const Profile = ({ clerkId, user }: Props) => {
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className='text-red-500' />
 						</FormItem>
 					)}
 				/>
@@ -164,7 +123,7 @@ const Profile = ({ clerkId, user }: Props) => {
 					render={({ field }) => (
 						<FormItem className='space-y-3.5'>
 							<FormLabel className='paragraph-semibold text-dark400_light800'>
-								Bio <span className='text-primary-500'>*</span>
+								Bio
 							</FormLabel>
 							<FormControl>
 								<Textarea
@@ -173,7 +132,7 @@ const Profile = ({ clerkId, user }: Props) => {
 									{...field}
 								/>
 							</FormControl>
-							<FormMessage />
+							<FormMessage className='text-red-500' />
 						</FormItem>
 					)}
 				/>

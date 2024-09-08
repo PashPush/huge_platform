@@ -18,7 +18,10 @@ const Page = async ({ params }: ParamsProps) => {
 	return (
 		<>
 			<h1 className='h1-bold text-dark100_light900'>Edit Profile</h1>
-
+			<p>
+				For editing main information like Username, Password, Photo etc. - Click
+				circle button in right top corner and then Manage account ↗️
+			</p>
 			<div className='mt-9'>
 				<Profile clerkId={userId} user={JSON.stringify(mongoUser)} />
 			</div>

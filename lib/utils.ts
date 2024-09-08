@@ -152,3 +152,51 @@ export const shieldingRegExp = (str: string, flags: string) => {
 		flags
 	)
 }
+
+function cyrillicToLatin(input: string): string {
+	const transliterationMap: { [key: string]: string } = {
+		а: 'a',
+		б: 'b',
+		в: 'v',
+		г: 'g',
+		д: 'd',
+		е: 'e',
+		ё: 'e',
+		ж: 'zh',
+		з: 'z',
+		и: 'i',
+		й: 'y',
+		к: 'k',
+		л: 'l',
+		м: 'm',
+		н: 'n',
+		о: 'o',
+		п: 'p',
+		р: 'r',
+		с: 's',
+		т: 't',
+		у: 'u',
+		ф: 'f',
+		х: 'kh',
+		ц: 'ts',
+		ч: 'ch',
+		ш: 'sh',
+		щ: 'shch',
+		ъ: '',
+		ы: 'y',
+		ь: '',
+		э: 'e',
+		ю: 'yu',
+		я: 'ya',
+	}
+
+	return input
+		.split('')
+		.map((char) => transliterationMap[char] || char)
+		.join('')
+}
+
+export function transformString(input: string): string {
+	const transliterated = cyrillicToLatin(input.toLowerCase().trim())
+	return transliterated.replace(/[^a-zA-Z0-9 ]/g, '').replace(/[ ]/g, '-')
+}

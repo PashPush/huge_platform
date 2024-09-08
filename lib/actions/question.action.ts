@@ -17,7 +17,7 @@ import { revalidatePath } from 'next/cache'
 import Answer from '@/database/answer.model'
 import Interaction from '@/database/interaction.model'
 import { FilterQuery } from 'mongoose'
-import { shieldingRegExp } from '../utils'
+import { shieldingRegExp, transformString } from '../utils'
 import { ITEMS_PER_PAGE } from '@/constants'
 
 export async function getQuestions(params: GetQuestionsParams) {
@@ -81,9 +81,11 @@ export async function createQuestion(params: CreateQuestionParams) {
 
 		const { title, content, tags, author, path } = params
 
+		const alias = transformString(title)
 		// Create the question
 		const question = await Question.create({
 			title,
+			alias,
 			content,
 			author,
 		})
