@@ -19,8 +19,8 @@ module.exports = {
 		extend: {
 			colors: {
 				primary: {
-					500: '#2563eb',
-					100: '#bfdbfe',
+					500: '#69b564',
+					100: '#ebffed',
 				},
 				dark: {
 					100: '#000000',
@@ -41,7 +41,7 @@ module.exports = {
 			},
 			fontFamily: {
 				inter: ['var(--font-inter)'],
-				spaceGrotesk: ['var(--font-spaceGrotesk)'],
+				merienda: ['var(--font-merienda)'],
 			},
 			boxShadow: {
 				'light-100':

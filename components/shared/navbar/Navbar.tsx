@@ -14,11 +14,11 @@ const Navbar = () => {
 					src='/assets/images/site-logo.svg'
 					width={23}
 					height={23}
-					alt='ShareKnowledge'
-					className='active-theme'
+					alt='Nutri Balance'
+					className='mr-2'
 				/>
-				<p className='h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden'>
-					Share <span className='text-primary-500'>Knowledge</span>
+				<p className='h2-bold font-merienda text-dark-100 dark:text-light-900 max-sm:hidden'>
+					Nutri <span className='text-primary-500'>Balance</span>
 				</p>
 			</Link>
 			<GlobalSearch />

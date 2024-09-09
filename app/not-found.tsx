@@ -8,7 +8,7 @@ export default function NotFound({ children }: { children: React.ReactNode }) {
 			<h1 className='h1-bold mb-4'>Oops... Page Not Found 🧩</h1>
 			<h2 className='h1-bold text-8xl mb-4'>404</h2>
 			<Link href='/' className='hover:cursor-pointer hover:text-primary-500'>
-				Back to ShareKnowledge
+				Back to Nutri Balance
 			</Link>
 		</div>
 	)

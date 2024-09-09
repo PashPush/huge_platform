@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React from 'react'
 import { ClerkProvider } from '@clerk/nextjs'
-import { Inter, Space_Grotesk } from 'next/font/google'
+import { Inter, Merienda } from 'next/font/google'
 import type { Metadata } from 'next'
 
 import './globals.css'
@@ -14,16 +14,16 @@ const inter = Inter({
 	variable: '--font-inter',
 })
 
-const spaceGrotesk = Space_Grotesk({
+const merienda = Merienda({
 	subsets: ['latin'],
 	weight: ['300', '400', '500', '600', '700'],
-	variable: '--font-spaceGrotesk',
+	variable: '--font-merienda',
 })
 
 export const metadata: Metadata = {
 	title: {
-		template: '%s | Share Knowledge',
-		default: 'Share Knowledge',
+		template: '%s | Nutri Balance',
+		default: 'Nutri Balance',
 	},
 	description:
 		'A community-driven platform for asking and answering programming questions. Get help, share knowledge, and collaborate with developers from around the world. Explore topics in web development, mobile app development, algorithms, data structures, and more.',
@@ -39,7 +39,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+			<body className={`${inter.variable} ${merienda.variable}`}>
 				<ClerkProvider
 					appearance={{
 						elements: {
