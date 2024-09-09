@@ -12,17 +12,22 @@ export const sidebarLinks: SidebarLink[] = [
 	{
 		imgURL: '/assets/icons/home.svg',
 		route: '/',
-		label: 'Home',
+		label: 'Главная',
+	},
+	{
+		imgURL: '/assets/icons/article.svg',
+		route: '/articles',
+		label: 'Статьи',
 	},
 	{
 		imgURL: '/assets/icons/users.svg',
 		route: '/community',
-		label: 'Community',
+		label: 'Сообщество',
 	},
 	{
 		imgURL: '/assets/icons/star.svg',
 		route: '/collection',
-		label: 'Collections',
+		label: 'Избранное',
 	},
 	// {
 	// 	imgURL: '/assets/icons/suitcase.svg',
@@ -32,17 +37,17 @@ export const sidebarLinks: SidebarLink[] = [
 	{
 		imgURL: '/assets/icons/tag.svg',
 		route: '/tags',
-		label: 'Tags',
+		label: 'Теги',
 	},
 	{
 		imgURL: '/assets/icons/user.svg',
 		route: '/profile',
-		label: 'Profile',
+		label: 'Профиль',
 	},
 	{
 		imgURL: '/assets/icons/question.svg',
 		route: '/ask-question',
-		label: 'Ask a question',
+		label: 'Задать вопрос',
 	},
 ]
 
