@@ -42,7 +42,7 @@ const Votes = ({
 		})
 
 		return toast({
-			title: `The question ${!hasSaved ? 'added to ' : 'removed from '}collection'`,
+			title: `The question ${!hasSaved ? 'added to ' : 'removed from '}collection`,
 			variant: 'success',
 		})
 	}

@@ -18,7 +18,7 @@ const Page = async ({ params }: ParamsProps) => {
 	return (
 		<>
 			<h1 className='h1-bold text-dark100_light900'>Edit Profile</h1>
-			<p>
+			<p className='paragraph-regular text-dark400_light800 mt-4'>
 				For editing main information like Username, Password, Photo etc. - Click
 				circle button in right top corner and then Manage account ↗️
 			</p>

@@ -109,8 +109,6 @@ const Question = ({ type, mongoUserId, questionDetails }: Props) => {
 			const tagValue = tagInput.value.trim().replace(/[^a-zA-Zа-яА-Я]/g, '')
 			const capitalizedTagValue = tagValue[0].toUpperCase() + tagValue.slice(1)
 
-			console.log(capitalizedTagValue)
-
 			if (capitalizedTagValue !== '') {
 				if (capitalizedTagValue.length > 15) {
 					return form.setError('tags', {

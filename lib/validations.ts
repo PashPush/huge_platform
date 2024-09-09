@@ -16,9 +16,9 @@ export const AnswerSchema = z.object({
 })
 
 export const ProfileSchema = z.object({
-	bio: z.string().min(0).max(250),
+	bio: z.string().max(250),
 	portfolioWebsite: z.union([z.string().url(), z.literal('')]),
-	location: z.string().min(0).max(50),
+	location: z.string().max(50),
 })
 
 export const TagSchema = z.object({

@@ -38,7 +38,6 @@ const Tag = ({ tagDetails }: Props) => {
 
 	async function onSubmit(values: z.infer<typeof TagSchema>) {
 		setIsSubmitting(true)
-		console.log('VALUESSSS: ', values)
 		try {
 			await editTag({
 				tagId: parsedTagDetails._id,
