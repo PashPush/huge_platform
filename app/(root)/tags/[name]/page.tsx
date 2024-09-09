@@ -1,9 +1,12 @@
 import QuestionCard from '@/components/cards/QuestionCard'
+import FollowTag from '@/components/shared/FollowTag'
 import NoResult from '@/components/shared/NoResult'
 import Pagination from '@/components/shared/Pagination'
 import LocalSearchbar from '@/components/shared/search/LocalSearchbar'
-import { getQuestionsByTagName } from '@/lib/actions/tag.actions'
+import { getQuestionsByTagName, getTagByName } from '@/lib/actions/tag.actions'
+import { getUserById } from '@/lib/actions/user.action'
 import { TAGProps } from '@/types'
+import { auth } from '@clerk/nextjs/server'
 import type { Metadata } from 'next'
 
 type Props = { params: { name: string } }
@@ -14,16 +17,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const Page = async ({ params, searchParams }: TAGProps) => {
+	const { userId: clerkId } = auth()
 	const result = await getQuestionsByTagName({
 		name: params.name,
 		page: searchParams.page ? +searchParams.page : 1,
 		searchQuery: searchParams.q,
 	})
 
+	const currentTag = await getTagByName(params.name)
+
+	let mongoUser
+
+	if (clerkId) {
+		mongoUser = await getUserById({ userId: clerkId })
+	}
+
 	return (
 		<>
-			<h1 className='h1-bold text-dark100_light900'>{result.tagTitle}</h1>
-
+			<div className='flex justify-between'>
+				<h1 className='h1-bold text-dark100_light900'>{result.tagTitle}</h1>
+				<FollowTag
+					tagName={JSON.stringify(params.name)}
+					userId={JSON.stringify(mongoUser?._id)}
+					hasFollowed={currentTag?.followers.includes(mongoUser?._id)}
+				/>
+			</div>
 			<div className='mt-11 w-full'>
 				<LocalSearchbar
 					route={`/tags/${params.name}`}

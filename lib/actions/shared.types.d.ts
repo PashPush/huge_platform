@@ -97,6 +97,13 @@ export interface EditTagParams {
 	path: string
 }
 
+export interface FollowTagParams {
+	tagName: string
+	userId: string
+	hasFollowed: boolean
+	path: string
+}
+
 export interface GetAllTagsParams {
 	page?: number
 	pageSize?: number

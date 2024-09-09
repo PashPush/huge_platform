@@ -4,6 +4,7 @@ import User from '@/database/user.model'
 import { connectToDatabase } from '../mongoose'
 import {
 	EditTagParams,
+	FollowTagParams,
 	GetAllTagsParams,
 	GetQuestionsByTagNameParams,
 	GetTopInteractedTagsParams,
@@ -162,7 +163,7 @@ export async function getQuestionsByTagName(
 
 		const skipAmount = (page - 1) * pageSize
 
-		const tagFilter: FilterQuery<ITag> = { name: name }
+		const tagFilter: FilterQuery<ITag> = { name }
 
 		const query: FilterQuery<IQuestion> = {}
 
@@ -250,6 +251,34 @@ export async function editTag(params: EditTagParams) {
 		tag.description = description
 
 		await tag.save()
+
+		revalidatePath(path)
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+export async function toggleFollowTag(params: FollowTagParams) {
+	try {
+		connectToDatabase()
+
+		const { tagName, userId, hasFollowed, path } = params
+
+		let updateQuery = {}
+
+		if (hasFollowed) {
+			updateQuery = { $pull: { followers: userId } }
+		} else {
+			updateQuery = { $addToSet: { followers: userId } }
+		}
+
+		const tag = await Tag.findOneAndUpdate({ name: tagName }, updateQuery, {
+			new: true,
+		})
+
+		if (!tag) {
+			throw new Error('Tag not found')
+		}
 
 		revalidatePath(path)
 	} catch (error) {
