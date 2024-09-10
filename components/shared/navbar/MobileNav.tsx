@@ -66,7 +66,7 @@ const MobileNav = () => {
 			</SheetTrigger>
 			<SheetContent
 				side='left'
-				className='background-light900_dark200 border-none'
+				className='background-light900_dark200 min-w-[244px] border-none'
 			>
 				<SheetHeader>
 					{' '}

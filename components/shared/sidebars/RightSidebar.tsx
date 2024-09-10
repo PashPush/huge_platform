@@ -1,16 +1,17 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import RenderTag from './RenderTag'
+import RenderTag from '../RenderTag'
 import { getHotQuestions } from '@/lib/actions/question.action'
 import { getTopPopularTags } from '@/lib/actions/tag.actions'
+import SidebarLayout from './SidebarLayout'
 
 const RightSidebar = async () => {
 	const hotQuestions = await getHotQuestions()
 	const popularTags = await getTopPopularTags()
 
 	return (
-		<section className="background-light900_dark200 light-border custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col overflow-y-auto border-l p-6 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden">
+		<SidebarLayout>
 			<div>
 				<h3 className='h3-bold text-dark200_light900'>Top Questions</h3>
 				<div className='mt-7 flex w-full flex-col gap-[30px]'>
@@ -48,7 +49,7 @@ const RightSidebar = async () => {
 					))}
 				</div>
 			</div>
-		</section>
+		</SidebarLayout>
 	)
 }
 

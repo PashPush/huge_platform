@@ -21,9 +21,13 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
 		return (
 			<section className='mt-12 flex flex-wrap gap-4'>
 				<div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'>
-					To see your collections{' '}
+					Для просмотра добавленного в избранное необходимо{' '}
 					<Link href='/sign-in' className='mt-2 font-bold text-accent-blue'>
-						Log in
+						Войти
+					</Link>
+					{' или '}
+					<Link href='/sign-up' className='mt-2 font-bold text-accent-blue'>
+						Зарегистрироваться
 					</Link>
 				</div>
 			</section>
@@ -38,7 +42,7 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
 
 	return (
 		<>
-			<h1 className='h1-bold text-dark100_light900'>Saved Questions</h1>
+			<h1 className='h1-bold text-dark100_light900'>Избранное</h1>
 
 			<div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
 				<LocalSearchbar

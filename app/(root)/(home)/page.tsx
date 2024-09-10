@@ -44,11 +44,9 @@ export default async function Home({ searchParams }: SearchParamsProps) {
 	return (
 		<>
 			<div className='flex w-full flex-row justify-between gap-4 '>
-				<h1 className='h1-bold text-dark100_light900 min-w-fit'>
-					All Questions
-				</h1>
+				<h1 className='h1-bold text-dark100_light900 min-w-fit'>Все вопросы</h1>
 				<Link href='/ask-question' className='flex justify-end max-sm:w-full'>
-					<Button variant='homeBtn'>Ask a Question</Button>
+					<Button variant='homeBtn'>Задать вопрос</Button>
 				</Link>
 			</div>
 			<div className='mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center'>
