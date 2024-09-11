@@ -20,6 +20,7 @@ import Answer from '@/database/answer.model'
 import { BadgeCriteriaType } from '@/types'
 import { assignBadges, shieldingRegExp } from '../utils'
 import { ITEMS_PER_PAGE } from '@/constants'
+import Interaction from '@/database/interaction.model'
 
 export async function getUserById(params: GetUserByIdParams) {
 	try {
@@ -395,6 +396,28 @@ export async function getUserAnswers(params: GetUserStatsParams) {
 		const isNext = totalAnswers > skipAmount + pageSize
 
 		return { totalAnswers, answers: userAnswers, isNext }
+	} catch (error) {
+		console.log(error)
+		throw error
+	}
+}
+
+export async function getAllUnseenQuestions(userId: string) {
+	try {
+		connectToDatabase()
+
+		const viewedQuestionIds = await Interaction.distinct('question', {
+			user: userId,
+			action: 'view',
+		})
+		const allUnseenQuestions = await Question.find(
+			{
+				_id: { $nin: viewedQuestionIds },
+			},
+			{ _id: 1 }
+		)
+
+		return { allUnseenQuestions }
 	} catch (error) {
 		console.log(error)
 		throw error

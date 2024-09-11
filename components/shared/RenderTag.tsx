@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 
 interface Props {
-	_id: string | number
 	name: string
 	totalQuestions?: number
 	showCount?: boolean
@@ -10,7 +9,6 @@ interface Props {
 }
 
 const RenderTag = ({
-	_id,
 	name,
 	totalQuestions,
 	showCount,

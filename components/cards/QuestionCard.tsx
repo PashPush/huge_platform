@@ -24,6 +24,7 @@ export interface QuestionProps {
 	answers: Array<object>
 	createdAt: Date
 	clerkId?: string | null
+	isUnseen?: boolean
 }
 
 const QuestionCard = ({
@@ -36,6 +37,7 @@ const QuestionCard = ({
 	views,
 	answers,
 	createdAt,
+	isUnseen = false,
 }: QuestionProps) => {
 	const showActionButtons = clerkId && clerkId === author.clerkId
 
@@ -52,7 +54,15 @@ const QuestionCard = ({
 						</h3>
 					</Link>
 				</div>
-
+				{isUnseen && (
+					<Metric
+						imgUrl='/assets/icons/eye-green.svg'
+						alt='eye'
+						value={''}
+						title=''
+						textStyles='small-medium text-dark400_light800'
+					/>
+				)}
 				<SignedIn>
 					{showActionButtons && (
 						<EditDeleteAction type='Question' itemId={JSON.stringify(_id)} />
@@ -62,7 +72,7 @@ const QuestionCard = ({
 
 			<div className='mt-3.5 flex flex-wrap gap-2'>
 				{tags.map((tag) => (
-					<RenderTag key={tag._id} _id={tag._id} name={tag.name} />
+					<RenderTag key={tag._id} name={tag.name} />
 				))}
 			</div>
 

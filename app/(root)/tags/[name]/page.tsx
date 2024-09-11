@@ -24,6 +24,13 @@ const Page = async ({ params, searchParams }: TAGProps) => {
 		searchQuery: searchParams.q,
 	})
 
+	let unseen: string[] | undefined
+
+	if (searchParams.unseen) {
+		unseen = JSON.parse(searchParams.unseen)
+		console.log('UNSEEN: ', unseen, 'QUWEURSUR: ', result.questions)
+	}
+
 	const currentTag = await getTagByName(params.name)
 
 	let mongoUser
@@ -63,6 +70,7 @@ const Page = async ({ params, searchParams }: TAGProps) => {
 							views={question.views}
 							answers={question.answers}
 							createdAt={question.createdAt}
+							isUnseen={unseen?.includes(question._id.toString())}
 						/>
 					))
 				) : !searchParams.q ? (

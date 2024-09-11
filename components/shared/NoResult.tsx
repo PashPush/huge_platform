@@ -23,14 +23,14 @@ const NoResult = ({
 			{showImage && (
 				<>
 					<Image
-						src='/assets/images/light-illustration.png'
+						src='/assets/images/light-green-illustration.png'
 						alt='No result illustration'
 						width={270}
 						height={200}
 						className='mb-8 block object-contain dark:hidden'
 					/>
 					<Image
-						src='/assets/images/dark-illustration.png'
+						src='/assets/images/dark-green-illustration.png'
 						alt='No result illustration'
 						width={270}
 						height={200}

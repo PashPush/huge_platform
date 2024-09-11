@@ -285,3 +285,109 @@ export async function toggleFollowTag(params: FollowTagParams) {
 		console.log(error)
 	}
 }
+
+export async function userFollowedTags(userId: string) {
+	try {
+		connectToDatabase()
+
+		const tags = await Tag.aggregate([
+			{
+				$match: {
+					followers: { $elemMatch: { $eq: userId } },
+				},
+			},
+			{
+				$lookup: {
+					from: 'questions',
+					localField: 'questions',
+					foreignField: '_id',
+					as: 'questions',
+				},
+			},
+			{
+				$unwind: '$questions',
+			},
+			{
+				$lookup: {
+					from: 'interactions',
+					localField: 'questions._id',
+					foreignField: 'question',
+					as: 'interactions',
+				},
+			},
+			{
+				$project: {
+					tagName: '$name',
+					question: '$questions',
+					interaction: {
+						$filter: {
+							input: '$interactions',
+							as: 'interaction',
+							cond: { $eq: ['$$interaction.user', userId] },
+						},
+					},
+				},
+			},
+			{
+				$project: {
+					tagName: 1,
+					question: 1,
+					unseen: { $eq: [{ $size: '$interaction' }, 0] },
+				},
+			},
+			{
+				$group: {
+					_id: '$tagName',
+					questions: { $push: { question: '$question', unseen: '$unseen' } },
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					unseenQuestions: {
+						$map: {
+							input: '$questions',
+							as: 'question',
+							in: {
+								$cond: {
+									if: '$$question.unseen',
+									then: '$$question.question',
+									else: null,
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					unseenQuestions: {
+						$filter: {
+							input: '$unseenQuestions',
+							as: 'question',
+							cond: { $ne: ['$$question', null] },
+						},
+					},
+				},
+			},
+		])
+		if (!tags) {
+			throw new Error('Tags not found')
+		}
+
+		revalidatePath('/collection')
+
+		return tags.map((tag) => {
+			return {
+				name: tag._id,
+				unseenQuestions: tag.unseenQuestions?.map(
+					(question: any) => question._id
+				),
+			}
+		})
+	} catch (error) {
+		console.log(error)
+		throw error
+	}
+}
